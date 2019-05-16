@@ -33,22 +33,54 @@ function App() {
     window.gapi.load('client', start);
   };
 
-  const renderEvent = () => {
-    return events.map(calEvent => {
-      return (
-        <div className="container" key={calEvent.id}>
-          <div className="row">
-            <div className="col-md">
-              <h3>{calEvent.summary}</h3>
-            </div>
+  // const onHoverTooltip = calEvent => {
+  //   return (
+  //     <div
+  //       style={{
+  //         backgroundColor: 'rgba(0, 0, 0, 0.85)',
+  //         padding: '2px 10px',
+  //         color: 'white',
+  //         borderRadius: 3
+  //       }}
+  //     >
+  //       <h5>{calEvent.description}</h5>
+  //     </div>
+  //   );
+  // };
 
-            <div className="col-sm">
-              <h4>{calEvent.start.date}</h4>
-            </div>
-          </div>
-        </div>
-      );
-    });
+  const renderEvent = () => {
+    return (
+      <div className="container">
+        <table className="table table-hover">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">Movie</th>
+              <th scope="col">Released</th>
+            </tr>
+          </thead>
+          {events.map(calEvent => {
+            return (
+              <tbody key={calEvent.id}>
+                <tr
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  // onMouseOver={() => onHoverTooltip(calEvent)}
+                >
+                  <td scope="col">{calEvent.summary}</td>
+                  <td scope="col">{calEvent.start.date}</td>
+                </tr>
+              </tbody>
+            );
+          })}
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">Movie</th>
+              <th scope="col">Released</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    );
   };
 
   return <div>{renderEvent()}</div>;
