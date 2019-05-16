@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import gapi_creds from './gapi-creds';
 
 function App() {
   // const [gapiRdy, setGapiRdy] = useState(false);
   const [events, setEvents] = useState([]);
-
-  const GOOGLE_API_KEY = 'AIzaSyBjvvNhVuFHqn2xahUw7cELBXlItsjvcu4';
-  const CALENDAR_ID = 'gpoeuf4afk2plvmpbkc9r184rk@group.calendar.google.com';
 
   useEffect(() => {
     getEvents();
@@ -17,11 +15,13 @@ function App() {
     function start() {
       window.gapi.client
         .init({
-          apiKey: GOOGLE_API_KEY
+          apiKey: gapi_creds.GOOGLE_API_KEY
         })
         .then(function() {
           return window.gapi.client.request({
-            path: `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events`
+            path: `https://www.googleapis.com/calendar/v3/calendars/${
+              gapi_creds.CALENDAR_ID
+            }/events`
           });
         })
         .then(response => {
@@ -32,24 +32,17 @@ function App() {
     window.gapi.load('client', start);
   };
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const renderEvent = () => {
+    return events.map(calEvent => {
+      return (
+        <div>
+          <h1>{calEvent.summary}</h1>
+        </div>
+      );
+    });
+  };
+
+  return <div className="App">{renderEvent()}</div>;
 }
 
 export default App;

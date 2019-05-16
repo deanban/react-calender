@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# files
+/src/gapi-creds.js
+
 # testing
 /coverage
 
